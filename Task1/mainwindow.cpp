@@ -8,9 +8,9 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    ui->centralWidget->setFixedSize(300, 300);
+    this->setFixedSize(300, 300);
     QPushButton *closePushButton = new QPushButton("&Close", this);
-    closePushButton->setGeometry((300-33), (300-13), 66,26);
+    closePushButton->setGeometry((300-66)/2, (300-56)/2, 66,26);
     connect(closePushButton,&QPushButton::clicked,this, &QApplication::quit);
 }
 
