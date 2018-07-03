@@ -25,9 +25,6 @@ Widget::Widget(QWidget *parent) :
     buttonsMapper->setMapping(ui->pushButton_8, 8);
     buttonsMapper->setMapping(ui->pushButton_9, 9);
 
-
-    connect(ui->newGameButton, &QPushButton::clicked, this, &Widget::clearField);
-
     connect(ui->pushButton_1, &QPushButton::clicked, buttonsMapper, static_cast<void (QSignalMapper::*) ()>(&QSignalMapper::map));
     connect(ui->pushButton_2, &QPushButton::clicked, buttonsMapper, static_cast<void (QSignalMapper::*) ()>(&QSignalMapper::map));
     connect(ui->pushButton_3, &QPushButton::clicked, buttonsMapper, static_cast<void (QSignalMapper::*) ()>(&QSignalMapper::map));
@@ -39,6 +36,8 @@ Widget::Widget(QWidget *parent) :
     connect(ui->pushButton_9, &QPushButton::clicked, buttonsMapper, static_cast<void (QSignalMapper::*) ()>(&QSignalMapper::map));
 
     connect(buttonsMapper, static_cast<void (QSignalMapper::*)(int)>(&QSignalMapper::mapped), this, &Widget::playersTurn);
+    connect(ui->newGameButton, &QPushButton::clicked, this, &Widget::clearField);
+
 }
 
 Widget::~Widget()
@@ -50,26 +49,40 @@ void Widget::isWinner()
 {
     for (int i = 1; i <= 3; ++i)
     {
-        if ((fieldState.at(i) == fieldState.at(i+1) == fieldState.at(i+2)) && fieldState.at(i) != "")
+        if (((fieldState.at(i) == fieldState.at(i+1)) && (fieldState.at(i) == fieldState.at(i+2))) && fieldState.at(i) != "")
         {
             ui->playerInfoLabel->setText(QString("Player " + fieldState.at(i) + " wins"));
+            signalWinnerExists();
         }
     }
 
     for (int i = 1; i <= 3; ++i)
     {
-        if ((fieldState.at(i) == fieldState.at(i+3) == fieldState.at(i+6)) && fieldState.at(i) != "")
+        if (((fieldState.at(i) == fieldState.at(i+3)) && (fieldState.at(i) == fieldState.at(i+6))) && fieldState.at(i) != "")
         {
             ui->playerInfoLabel->setText(QString("Player " + fieldState.at(i) + " wins"));
+            signalWinnerExists();
+
         }
     }
-    if (fieldState.at(1) == fieldState.at(5) == fieldState.at(9) && fieldState.at(1) != "")
+    if ((fieldState.at(1) == fieldState.at(5)) && (fieldState.at(1) == fieldState.at(9)) && fieldState.at(1) != "")
     {
-        ui->playerInfoLabel->setText(QString("Player " + fieldState.at(2) + " wins"));
+        ui->playerInfoLabel->setText(QString("Player " + fieldState.at(1) + " wins"));
+        signalWinnerExists();
+
     }
-    if (fieldState.at(3) == fieldState.at(5) == fieldState.at(7) && fieldState.at(7) != "")
+    if ((fieldState.at(3) == fieldState.at(5)) && (fieldState.at(3) == fieldState.at(7)) && fieldState.at(7) != "")
     {
-        ui->playerInfoLabel->setText(QString("Player  wins"));
+        ui->playerInfoLabel->setText(QString("Player " + fieldState.at(3) +" wins"));
+        signalWinnerExists();
+    }
+}
+
+void Widget::signalWinnerExists()
+{
+    for (int i = 1; i < 10; ++i)
+    {
+        qobject_cast<QPushButton* >(buttonsMapper->mapping(i))->setEnabled(false);
     }
 }
 
@@ -110,7 +123,7 @@ void Widget::playersTurn(int id)
         buttonPressed->setEnabled(false);
         fieldState.at(id) = "O";
     }
-    //  isWinner();
+     isWinner();
     state = !state;
 }
 
@@ -118,6 +131,11 @@ void Widget::clearButton(int id)
 {
     qobject_cast<QPushButton *>(buttonsMapper->mapping(id))->setEnabled(true);
     qobject_cast<QPushButton *>(buttonsMapper->mapping(id))->setText("");
+}
+
+void Widget::disable(int id)
+{
+    qobject_cast<QPushButton*>(buttonsMapper->mapping(id))->setEnabled(false);
 }
 
 

@@ -18,11 +18,13 @@ public:
     ~Widget();
 
     void isWinner();
+    void signalWinnerExists();
 
 public slots:
     void clearField();
     void playersTurn(int id);
     void clearButton(int id);
+    void disable(int id);
 
 signals:
     void signalNewGameStarted(int id);
