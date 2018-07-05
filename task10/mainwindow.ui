@@ -37,27 +37,27 @@
    </property>
    <widget class="QMenu" name="menuNew">
     <property name="title">
-     <string>New</string>
+     <string>&amp;New</string>
     </property>
    </widget>
    <widget class="QMenu" name="menuOpen">
     <property name="title">
-     <string>Open</string>
+     <string>&amp;Open</string>
     </property>
    </widget>
    <widget class="QMenu" name="menuSave">
     <property name="title">
-     <string>Save</string>
+     <string>&amp;Save</string>
     </property>
    </widget>
    <widget class="QMenu" name="menuSave_as">
     <property name="title">
-     <string>Save as</string>
+     <string>S&amp;ave as</string>
     </property>
    </widget>
    <widget class="QMenu" name="menuQuit">
     <property name="title">
-     <string>Quit</string>
+     <string>&amp;Quit</string>
     </property>
    </widget>
    <addaction name="menuNew"/>

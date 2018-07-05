@@ -15,8 +15,15 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
+public slots:
+    void slotOpen();
+    void slotSave();
+    void slotSaveAs();
+    void slotNew();
+
 private:
     Ui::MainWindow *ui;
+    QString filePath;
 };
 
 #endif // MAINWINDOW_H
