@@ -4,7 +4,8 @@
 #include <QFileDialog>
 #include <QString>
 #include <QFile>
-#include <QTextStream>
+#include <QDebug>
+#include <QByteArray>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -33,29 +34,31 @@ void MainWindow::slotOpen()
     ui->textEdit->clear();
     if (openFile.open(QIODevice::ReadOnly))
     {
-        QTextStream input(&openFile);
-        while(!input.atEnd())
-        {
-            QString line = input.readLine();
-            ui->textEdit->append(line);
-        }
+        ui->textEdit->setText(openFile.readAll());
     }
+    openFile.close();
+    setWindowModified(false);
 }
 
 void MainWindow::slotSave()
 {
     QFile saveFile(filePath);
-    if (!saveFile.open(QIODevice::WriteOnly))
+    qDebug() << "\n";
+    qDebug() << filePath;
+    if (!saveFile.open(QIODevice::WriteOnly | QIODevice::Text))
     {
-        QTextStream output(&saveFile);
-        output << ui->textEdit->toPlainText();
+        QByteArray output;
+        output.append(ui->textEdit->toPlainText());
+        saveFile.write(output);
+        setWindowModified(false);
     }
     saveFile.close();
 }
 
 void MainWindow::slotSaveAs()
 {
-
+    filePath = QFileDialog::getOpenFileName(this, "Open file");
+    slotSave();
 }
 
 void MainWindow::slotNew()
